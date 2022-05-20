@@ -1,0 +1,10 @@
+# Compiled files
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+
+# Directories
+.terraform/
+
+# lock.hcl file
+.terraform.lock.hcl
