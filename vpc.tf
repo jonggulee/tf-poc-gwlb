@@ -144,3 +144,42 @@ resource "aws_subnet" "app01-pri-2c" {
     Name = "app01-pri-2c"
   }
 }
+
+resource "aws_subnet" "app01-tgw-2a" {
+  vpc_id     = aws_vpc.app01-vpc.id
+  cidr_block = "10.10.251.0/24"
+  availability_zone = "ap-northeast-2a"
+  map_public_ip_on_launch	= true
+
+  tags = {
+    Name = "app01-tgw-2a"
+  }
+}
+
+resource "aws_subnet" "app01-tgw-2c" {
+  vpc_id     = aws_vpc.app01-vpc.id
+  cidr_block = "10.10.253.0/24"
+  availability_zone = "ap-northeast-2c"
+  map_public_ip_on_launch	= true
+
+  tags = {
+    Name = "app01-tgw-2c"
+  }
+}
+
+# Internet Gateway
+resource "aws_internet_gateway" "sec-igw" {
+  vpc_id = aws_vpc.sec-vpc.id
+
+  tags = {
+    Name = "sec-igw"
+  }
+}
+
+resource "aws_internet_gateway" "appliance-igw" {
+  vpc_id = aws_vpc.appliance-vpc.id
+
+  tags = {
+    Name = "appliance-igw"
+  }
+}
