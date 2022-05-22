@@ -8,6 +8,8 @@ ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 sudo sysctl -w net.ipv4.ip_forward=1
 
 # Environment variable configuration
+yum install epel-release -y
+yum install jq -y
 curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document > /home/ec2-user/iid
 export instance_interface=$(curl --silent http://169.254.169.254/latest/meta-data/network/interfaces/macs/)
 export instance_vpcid=$(curl --silent http://169.254.169.254/latest/meta-data/network/interfaces/macs/$instance_interface/vpc-id)
@@ -33,20 +35,20 @@ sudo systemctl restart httpd
 
 # Start and configure iptables
 yum install iptables-services -y
-sudo systemctl enable iptables
-sudo systemctl start iptables
+systemctl enable iptables
+systemctl start iptables
 
 # Configuration below allows allows all traffic
 # Set the default policies for each of the built-in chains to ACCEPT
-sudo iptables -P INPUT ACCEPT
-sudo iptables -P FORWARD ACCEPT
-sudo iptables -P OUTPUT ACCEPT
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
 
 # Flush the nat and mangle tables, flush all chains (-F), and delete all non-default chains (-X)
-sudo iptables -t nat -F
-sudo iptables -t mangle -F
-sudo iptables -F
-sudo iptables -X
+iptables -t nat -F
+iptables -t mangle -F
+iptables -F
+iptables -X
 
 # Configure nat table to hairpin traffic back to GWLB
 sudo iptables -t nat -A PREROUTING -p udp -s $gwlb_ip -d $instance_ip -i eth0 -j DNAT --to-destination $gwlb_ip:6081
