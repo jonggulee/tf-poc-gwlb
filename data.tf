@@ -14,30 +14,29 @@ data "aws_ami" "amzn2" {
   owners = ["amazon"] # Canonical
 }
 
-############# TEST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!####################
-# data "aws_network_interface" "app01-web-nlb-private-ip-2a" {
-#   filter {
-#     name = "description"
-#     values = ["ELB ${aws_lb.sec-app01-web-alb.arn_suffix}"]
-#   }
+data "aws_network_interface" "app01-web-nlb-private-ip-2a" {
+  filter {
+    name = "description"
+    values = ["ELB ${aws_lb.app01-web-nlb.arn_suffix}"]
+  }
 
-#   filter {
-#     name = "availability_zone"
-#     values = ["ap-northeast-2a"]
-#   }
-# }
+  filter {
+    name = "availability-zone"
+    values = ["ap-northeast-2a"]
+  }
+}
 
-# data "aws_network_interface" "app01-web-nlb-private-ip-2c" {
-#   filter {
-#     name = "description"
-#     values = ["ELB ${aws_lb.sec-app01-web-alb.arn_suffix}"]
-#   }
-
-#   filter {
-#     name = "availability_zone"
-#     values = ["ap-northeast-2c"]
-#   }
-# }
+data "aws_network_interface" "app01-web-nlb-private-ip-2c" {
+  filter {
+    name = "description"
+    values = ["ELB ${aws_lb.app01-web-nlb.arn_suffix}"]
+  }
+  
+  filter {
+    name = "availability-zone"
+    values = ["ap-northeast-2c"]
+  }
+}
 
 variable "aws_region" {
   description = "AWS region"
