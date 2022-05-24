@@ -1,26 +1,6 @@
 # --------------------------------
-# Bastion Instance
+# Bastion Instances
 # --------------------------------
-# resource "aws_instance" "appliance-bastion-pub-2c" {
-#   ami           = data.aws_ami.amzn2.id
-#   instance_type = "t2.micro"
-#   availability_zone = "${var.aws_region}c"
-
-#   subnet_id = aws_subnet.appliance-pub-2c.id
-#   key_name = "${var.appliance_bastion_key}"
-#   associate_public_ip_address = true
-
-#   security_groups = [aws_security_group.appliance-bastion-sg.id]
-  
-#   lifecycle {
-#     ignore_changes = all
-#   }
-
-#   tags = {
-#     Name = "appliance-bastion-pub-2c"
-#   }
-# }
-
 resource "aws_instance" "sec-bastion-pub-2c" {
   ami           = data.aws_ami.amzn2.id
   instance_type = "t2.micro"
@@ -112,6 +92,8 @@ resource "aws_instance" "app01-web-01-pri-2a" {
     ignore_changes = all
   }
 
+  depends_on = [aws_lb.app01-web-nlb, aws_instance.appliance-01-pub-2a, aws_ec2_transit_gateway.gwlb-tg]
+
   tags = {
     Name = "app01-web-01-pri-2a"
   }
@@ -133,38 +115,12 @@ resource "aws_instance" "app01-web-02-pri-2c" {
     ignore_changes = all
   }
 
+  depends_on = [aws_lb.app01-web-nlb, aws_instance.appliance-02-pub-2c, aws_ec2_transit_gateway.gwlb-tg]
+
   tags = {
     Name = "app01-web-02-pri-2c"
   }
 }
-
-# --------------------------------
-# Security Groups
-# --------------------------------
-# resource "aws_security_group" "appliance-bastion-sg" {
-#   name        = "appliance-bastion-sg"
-#   vpc_id      = aws_vpc.appliance-vpc.id
-
-#   ingress {
-#     description      = "Allow SSH from Anywhere"
-#     from_port        = 22
-#     to_port          = 22
-#     protocol         = "tcp"
-#     cidr_blocks      = ["0.0.0.0/0"]
-#   }
-
-#   egress {
-#     from_port        = 0
-#     to_port          = 0
-#     protocol         = "-1"
-#     cidr_blocks      = ["0.0.0.0/0"]
-#     ipv6_cidr_blocks = ["::/0"]
-#   }
-
-#   tags = {
-#     Name = "appliance-bastion-sg"
-#   }
-# }
 
 resource "aws_security_group" "sec-bastion-sg" {
   name        = "sec-bastion-sg"
