@@ -1,4 +1,6 @@
+# --------------------------------
 # Transit Gateway
+# --------------------------------
 resource "aws_ec2_transit_gateway" "gwlb-tg" {
   auto_accept_shared_attachments = "enable"
   default_route_table_association = "disable"
@@ -9,7 +11,9 @@ resource "aws_ec2_transit_gateway" "gwlb-tg" {
   }
 }
 
+# --------------------------------
 # Transit gateway attachments
+# --------------------------------
 resource "aws_ec2_transit_gateway_vpc_attachment" "gwlb-tg-sec-attach" {
   subnet_ids         = [aws_subnet.sec-tgw-2a.id, aws_subnet.sec-tgw-2c.id]
   transit_gateway_id = aws_ec2_transit_gateway.gwlb-tg.id
@@ -36,7 +40,9 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "gwlb-tg-app01-attach" {
   }
 }
 
+# --------------------------------
 # Route Tables - OUT
+# --------------------------------
 resource "aws_ec2_transit_gateway_route_table" "gwlb-tg-rt-out-tgrt" {
   transit_gateway_id = aws_ec2_transit_gateway.gwlb-tg.id
   
@@ -61,7 +67,9 @@ resource "aws_ec2_transit_gateway_route" "gwlb-tg-rt-out-rt" {
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.gwlb-tg-rt-out-tgrt.id
 }
 
+# --------------------------------
 # Route Tables - IN
+# --------------------------------
 resource "aws_ec2_transit_gateway_route_table" "gwlb-tg-rt-in-tgrt" {
   transit_gateway_id = aws_ec2_transit_gateway.gwlb-tg.id
   
