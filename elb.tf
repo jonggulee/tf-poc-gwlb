@@ -71,16 +71,33 @@ resource "aws_lb_target_group" "sec-app01-web-alb-tg" {
   vpc_id      = aws_vpc.sec-vpc.id
 }
 
-# resource "aws_lb_target_group_attachment" "sec-app01-web-alb-attach-01" {
-#   target_group_arn = aws_lb_target_group.sec-app01-web-alb-tg.arn
-# #   target_id        = aws_lb.app01-web-nlb.arn
-#   target_id        = each.value.ip
-#   port             = 80
+resource "aws_lb_target_group_attachment" "sec-app01-web-alb-attach-01" {
+  target_group_arn = aws_lb_target_group.sec-app01-web-alb-tg.arn
+  target_id        = data.aws_network_interface.app01-web-nlb-private-ip-2a.private_ip
+  port             = 80
 
-#   availability_zone = "all"
-# }
+  availability_zone = "all"
+}
 
 
+resource "aws_lb_target_group_attachment" "sec-app01-web-alb-attach-02" {
+  target_group_arn = aws_lb_target_group.sec-app01-web-alb-tg.arn
+  target_id        = data.aws_network_interface.app01-web-nlb-private-ip-2c.private_ip
+  port             = 80
+
+  availability_zone = "all"
+}
+
+resource "aws_lb_listener" "sec-app01-web-alb-listener" {
+  load_balancer_arn = aws_lb.sec-app01-web-alb.id
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.sec-app01-web-alb-tg.id
+    type             = "forward"
+  }
+}
 
 # --------------------------------
 # APP01 ALB in NLB VPC
@@ -90,9 +107,7 @@ resource "aws_lb" "app01-web-nlb" {
   internal           = true
   load_balancer_type = "network"
   subnets            = [aws_subnet.app01-pri-2a.id, aws_subnet.app01-pri-2c.id]
-
-#   enable_deletion_protection = true
-
+  
   tags = {
     Environment = "app01-web-nlb"
   }
