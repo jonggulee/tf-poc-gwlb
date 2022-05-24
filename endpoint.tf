@@ -1,5 +1,6 @@
+# --------------------------------
 # GWLB ENDPOINT
-
+# --------------------------------
 resource "aws_vpc_endpoint_service" "gwlb-eps" {
   acceptance_required        = false
   gateway_load_balancer_arns = [aws_lb.appliance-gwlb.arn]
