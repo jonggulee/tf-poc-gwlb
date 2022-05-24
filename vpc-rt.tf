@@ -1,4 +1,6 @@
+# --------------------------------
 # SEC VPC Route Tables
+# --------------------------------
 resource "aws_route_table" "sec-ingress-rt" {
   vpc_id = aws_vpc.sec-vpc.id
 
@@ -142,7 +144,9 @@ resource "aws_route_table_association" "sec-tgw-2c-rt" {
   route_table_id = aws_route_table.sec-tgw-2c-rt.id
 }
 
+# --------------------------------
 # APPLIANCE VPC Route Tables
+# --------------------------------
 resource "aws_route_table" "appliance-pub-rt" {
   vpc_id = aws_vpc.appliance-vpc.id
 
@@ -166,7 +170,9 @@ resource "aws_route_table_association" "appliance-pub-2c-rt" {
   route_table_id = aws_route_table.appliance-pub-rt.id
 }
 
+# --------------------------------
 # APP01 VPC Route Tables
+# --------------------------------
 resource "aws_route_table" "app01-pri-rt" {
   vpc_id = aws_vpc.app01-vpc.id
 
