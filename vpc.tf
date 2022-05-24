@@ -1,5 +1,6 @@
+# --------------------------------
 # SEC VPC AND SUBNET
-
+# --------------------------------
 resource "aws_vpc" "sec-vpc" {
   cidr_block			= "10.20.0.0/16"
   instance_tenancy		= "default"
@@ -71,8 +72,9 @@ resource "aws_subnet" "sec-tgw-2c" {
   }
 }
 
-
+# --------------------------------
 # APPLIANCE VPC AND SUBNET
+# --------------------------------
 resource "aws_vpc" "appliance-vpc" {
   cidr_block			= "10.21.0.0/16"
   instance_tenancy		= "default"
@@ -103,7 +105,9 @@ resource "aws_subnet" "appliance-pub-2c" {
   }
 }
 
+# --------------------------------
 # APP01 VPC AND SUBNET
+# --------------------------------
 resource "aws_vpc" "app01-vpc" {
   cidr_block			= "10.10.0.0/16"
   instance_tenancy		= "default"
@@ -155,7 +159,9 @@ resource "aws_subnet" "app01-tgw-2c" {
 
 }
 
+# --------------------------------
 # Internet Gateway
+# --------------------------------
 resource "aws_internet_gateway" "sec-igw" {
   vpc_id = aws_vpc.sec-vpc.id
 
@@ -172,7 +178,9 @@ resource "aws_internet_gateway" "appliance-igw" {
   }
 }
 
+# --------------------------------
 # NAT Gateway
+# --------------------------------
 resource "aws_nat_gateway" "sec-pub-2a-nat" {
   allocation_id = aws_eip.sec-pub-2a-nat-eip.id
   subnet_id     = aws_subnet.sec-pub-2a.id
