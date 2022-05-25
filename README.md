@@ -8,6 +8,7 @@ To create a Centralized inspection architecture using terraform with AWS Gateway
 
 # Prerequisites
 Created AWS Key pair
+Completion of AWS configuration and credential file settings
 
 # Getting Started
 Git clone
