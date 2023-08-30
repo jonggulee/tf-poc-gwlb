@@ -13,7 +13,7 @@ Completion of AWS configuration and credential file settings
 # Getting Started
 Git clone
 ```
-$ git clone https://github.com/MZCBBD/test-gwlb-terraform.git
+$ git clone https://github.com/jonggulee/tf-poc-gwlb.git
 ```
 
 Open data.tf in a text editor then update the key pair
